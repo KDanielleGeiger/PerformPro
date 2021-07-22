@@ -1,0 +1,23 @@
+﻿<ul class="navbar-nav flex-grow-1">
+@if (User.IsInRole("Administrator"))
+{
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="Forms" asp-action="Index">Forms</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="Employees" asp-action="Index">Employees</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="Supervisors" asp-action="Index">Supervisors</a>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="Forms" asp-action="Index">Forms</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-controller="Employees" asp-action="Index">Employees</a>
+    </li>
+}
+</ul>

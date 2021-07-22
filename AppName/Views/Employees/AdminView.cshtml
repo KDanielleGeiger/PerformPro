@@ -1,0 +1,88 @@
+﻿@model IEnumerable<PerformPro.ViewModels.EmployeesListViewModel>
+
+@{
+    ViewData["Title"] = "Employees";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Employees</h2>
+<br />
+<p>
+    @Html.ActionLink("+ New Employee", "New", "Employees", null, new { @class = "btn btn-primary" })
+</p>
+<br />
+
+<table id ="table" class="table table-hover table-bordered" style="width: 76%">
+    <thead>
+        <tr style="background: #eaeaea">
+            <th width="20%">Employee Name</th>
+            <th width="20%">Employee ID</th>
+            <th width="20%">Supervisor</th>
+            <th width="20%">Edit</th>
+            <th width="20%">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Employee.FirstName)
+                    @Html.DisplayFor(modelItem => item.Employee.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Employee.EmployeeID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Supervisor.FirstName)
+                    @Html.DisplayFor(modelItem => item.Supervisor.LastName)
+                </td>
+                <td>
+                    @(!item.Employee.Deleted ? @Html.ActionLink("Edit", "Edit", "Employees", new { id = item.Employee.EmployeeKey }, null) : @Html.Label("Edit"))
+                </td>
+                <td>
+                    @Html.ActionLink(item.Employee.Deleted ? "Restore" : "Delete", "Delete", "Employees", new { id = item.Employee.EmployeeKey },
+                            new { onclick = String.Format("return confirm('Are you sure you want to {0} {1} {2} Employee account?');", (item.Employee.Deleted ? "RESTORE" : "DELETE"), item.Employee.FirstName, item.Employee.LastName) })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts
+{
+    <script>
+        //Search box, pagination
+        $(document).ready(function() {
+            $('#table').DataTable({
+                "pageLength": 8,
+                "lengthChange": false,
+                "ordering": false,
+                "columnDefs": [
+                    { "searchable": false, "targets": [1,2,3,4] }
+                ],
+                language: { search: "", searchPlaceholder: "Search by employee..." },
+                "dom": "<'row'<'col-sm-12'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-5'p>>"
+            });
+        });
+
+        $.fn.dataTable.ext.classes.sPageButton = 'pagination-sm';
+        $.fn.dataTable.ext.classes.sPageButtonActive = 'pagination-sm active';
+        $.fn.dataTable.ext.classes.sPageButtonStaticDisabled = 'pagination-sm disabled';
+    </script>
+
+    <style type="text/css">
+        .dataTables_filter input {
+            width: 95%;
+        }
+
+        .dataTables_info {
+            font-size: small;
+        }
+
+        .pagination {
+            float: right;
+            margin-right: 18%;
+        }
+    </style>
+}

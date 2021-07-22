@@ -1,0 +1,64 @@
+﻿@model Employee
+
+@{
+    ViewData["Title"] = "Add Employee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@(Model.EmployeeKey == 0 ? "New Employee" : "Edit Employee")</h2>
+<br />
+<div class="row">
+    <div class="col-lg-5">
+        <div class="bs-component">
+            <form autocomplete="off" asp-controller="Employees" asp-action="Save" asp-route-id="@Model.EmployeeKey" method="post">
+                @Html.ValidationSummary(true, string.Empty, new { @class = "text-danger" })
+                <fieldset>
+                    <div class="form-group row">
+                        <label asp-for="FirstName" class="col-sm-4 col-form-label">First Name:</label>
+                        <div class="col-sm-8">
+                            @*<input asp-for="FirstName" type="text" class="form-control" placeholder="Enter First Name" />*@
+                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter First Name" } })
+                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="LastName" class="col-sm-4 col-form-label">Last Name:</label>
+                        <div class="col-sm-8">
+                            @*<input asp-for="LastName" type="text" class="form-control" placeholder="Enter Last Name" />*@
+                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter Last Name" } })
+                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label id="EmployeeID" asp-for="EmployeeID" class="col-sm-4 col-form-label">Employee ID:</label>
+                        <div class="col-sm-8">
+                            @*<input asp-for="EmployeeID" type="text" class="form-control" placeholder="Enter Employee ID" />*@
+                            @Html.EditorFor(model => model.EmployeeID, new { htmlAttributes = new { @class = "form-control", @type = "text", @placeholder = "Enter Employee ID" } })
+                            @Html.ValidationMessageFor(model => model.EmployeeID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label asp-for="SupervisorID" class="col-sm-4 col-form-label">Supervisor ID:</label>
+                        <div class="col-sm-8">
+                            @*<input asp-for="SupervisorKey" type="text" list="supervisors" class="form-control" placeholder="Enter Supervisor ID" />*@
+                            @Html.EditorFor(model => model.SupervisorID, new { htmlAttributes = new { @class = "form-control", @type = "text", @id = "supervisorEntry", @list = "supervisors", @placeholder = "Enter Supervisor ID" } })
+                            @Html.ValidationMessageFor(model => model.SupervisorID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure you want to submit this employee profile?');">Submit</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+<datalist id="supervisors"></datalist>
+
+@section scripts {
+    <script>
+        var supervisorEntry = document.getElementById("supervisorEntry");
+        if (supervisorEntry.value == "0") {
+            supervisorEntry.value = "";
+        }
+    </script>
+}

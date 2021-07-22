@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="text-center">
+    <h2 class="display-4">Welcome!</h2>
+    <div class="row justify-content-center">
+        <div class="column" style="margin-right: 2.5%">
+            <img src="~/Forms.png" width="140" height="98" />
+            <p><a asp-area="" asp-controller="Forms" asp-action="Index">View Forms</a></p>
+        </div>
+        <div class="column" style="margin-left: 2.5%">
+            <img src="~/Employees.png" width="140" height="98" />
+            <p><a asp-area="" asp-controller="Employees" asp-action="Index">View Employees</a></p>
+        </div>
+    </div>
+</div>

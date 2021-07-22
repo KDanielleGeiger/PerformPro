@@ -1,0 +1,114 @@
+﻿@model IEnumerable<PerformPro.ViewModels.FormsListViewModel>
+
+@{
+    ViewData["Title"] = "Forms";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Forms</h2>
+<br />
+<p>
+    @Html.ActionLink("+ New Form", "New", "Forms", null, new { @class = "btn btn-primary" })
+</p>
+<br />
+<table id="table" class="table table-hover table-bordered" style="width: 90%">
+    <thead>
+        <tr style="background: #eaeaea">
+            <th width="20%">Employee Name</th>
+            <th width="20%">Employee ID</th>
+            <th width="20%">Assessment Period</th>
+            <th width="20%">Status</th>
+            <th width="10%">Edit</th>
+            <th width="10%">View</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- TODO: Create working View links to put in table -->
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Employee.FirstName)
+                @Html.DisplayFor(modelItem => item.Employee.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Employee.EmployeeID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Form.Period)
+            </td>
+            <td class=@(item.Form.Complete ? ".draft-style" : "")>
+                @(item.Form.Complete ? "Complete" : "Draft")
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "Forms", new { id = item.Form.FormID }, null)
+            </td>
+            <td>
+                @Html.ActionLink("View", "View", "Forms", new { id = item.Form.FormID }, null)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts
+{
+    <script>
+        //Search box, pagination
+        $(document).ready(function () {
+            $('#table').DataTable({
+                "pageLength": 8,
+                "lengthChange": false,
+                "ordering": false,
+                "columnDefs": [
+                    { "searchable": false, "targets": [1, 2, 3, 4, 5] }
+                ],
+                language: { search: "", searchPlaceholder: "Search by employee..." },
+                "dom": "<'row'<'col-sm-12'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>"
+            });
+        });
+
+        $.fn.dataTable.ext.classes.sPageButton = 'pagination-sm';
+        $.fn.dataTable.ext.classes.sPageButtonActive = 'pagination-sm active';
+        $.fn.dataTable.ext.classes.sPageButtonStaticDisabled = 'pagination-sm disabled';
+
+        //Conditional formatting for drafts
+        var table = document.getElementById("table");
+        var tr = table.getElementsByTagName("tr");
+        var i, td, value;
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[3];
+            if (td) {
+                value = td.innerText;
+                if (value == "Draft") {
+                    td.classList.add("draft");
+                }
+            }
+        }
+    </script>
+
+    <style type="text/css">
+        .draft-style {
+            color: red;
+            font-weight: bold;
+        }
+
+        .dataTables_filter input {
+            width: 116%;
+        }
+
+        .dataTables_info {
+            font-size: small;
+        }
+
+        .pagination {
+            float: right;
+            margin-right: 18%;
+        }
+
+        .draft {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+}

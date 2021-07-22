@@ -1,0 +1,6 @@
+﻿@model AccountModel
+
+<h2>Account</h2>
+<br />
+<p id="username"><strong>Username/Email: </strong>@Model.Email</p>
+<p id="password"><strong>Password: </strong><a asp-area="" asp-controller="Account" asp-action="ToChangePassword">Change Password</a></p>
